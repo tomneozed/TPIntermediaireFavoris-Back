@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-/*
+
 @Entity
 @Table(name = "favorite")
 @Getter
@@ -27,8 +27,12 @@ public class Favorite {
     @Column (name = "last_updated")
     private String last_updated;
 
+    @Column (name = "category", nullable = false)
+    private String category;
+
+    /*
     @Column (name = "category_id", nullable = false)
     @ManyToOne
     private Long category_id;
+     */
 }
-*/

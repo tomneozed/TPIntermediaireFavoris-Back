@@ -5,7 +5,6 @@ import com.example.TPIntermediaireFavoris.exceptions.NotFoundException;
 import com.example.TPIntermediaireFavoris.persistence.entity.Category;
 import com.example.TPIntermediaireFavoris.persistence.repository.ICategoryRepository;
 import com.example.TPIntermediaireFavoris.service.ICategoryService;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
