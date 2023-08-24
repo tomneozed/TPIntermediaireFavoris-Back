@@ -1,5 +1,6 @@
 package com.example.TPIntermediaireFavoris.service.impl;
 
+import com.example.TPIntermediaireFavoris.dto.CategoryDTO;
 import com.example.TPIntermediaireFavoris.dto.FavoriteDTO;
 import com.example.TPIntermediaireFavoris.exceptions.NotFoundException;
 import com.example.TPIntermediaireFavoris.persistence.entity.Favorite;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @Service
 public class FavoriteService implements IFavoriteService {
@@ -30,7 +30,7 @@ public class FavoriteService implements IFavoriteService {
                         f.getLink(),
                         f.getLabel(),
                         f.getLast_updated(),
-                        f.getCategory()))
+                        CategoryDTO.fromEntity(f.getCategory())))
                 .toList();
     }
 
@@ -42,7 +42,7 @@ public class FavoriteService implements IFavoriteService {
                         f.getLink(),
                         f.getLabel(),
                         f.getLast_updated(),
-                        f.getCategory()))
+                        CategoryDTO.fromEntity(f.getCategory())))
                 .orElseThrow(() -> new NotFoundException("L'item d'id " + id + " n'existe pas."));
     }
 
@@ -58,13 +58,19 @@ public class FavoriteService implements IFavoriteService {
         Favorite f = new Favorite(
                 favorite.getId(),
                 favorite.getLink(),
-                favorite.getCategory(),
+                favorite.getLabel(),
                 getCurrentTime(),
-                favorite.getCategory()
+                CategoryDTO.toEntity(favorite.getCategoryDto())
         );
 
         f = favoriteRepository.save(f);
-        return new FavoriteDTO(f.getId(), f.getLink(), f.getLabel(), f.getLast_updated(), f.getCategory());
+        return new FavoriteDTO(
+                f.getId(),
+                f.getLink(),
+                f.getLabel(),
+                f.getLast_updated(),
+                CategoryDTO.fromEntity(f.getCategory())
+        );
     }
 
     private String getCurrentTime() {
