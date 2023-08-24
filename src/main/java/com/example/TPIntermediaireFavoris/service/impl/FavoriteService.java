@@ -7,7 +7,10 @@ import com.example.TPIntermediaireFavoris.persistence.repository.IFavoriteReposi
 import com.example.TPIntermediaireFavoris.service.IFavoriteService;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class FavoriteService implements IFavoriteService {
@@ -52,14 +55,19 @@ public class FavoriteService implements IFavoriteService {
 
     @Override
     public FavoriteDTO save(FavoriteDTO favorite) {
-        Favorite f = new Favorite();
-        f.setId(favorite.getId());
-        f.setLink(favorite.getLink());
-        f.setLast_updated(favorite.getLast_updated());
-        f.setCategory(favorite.getCategory());
-        f.setLabel(favorite.getLabel());
+        Favorite f = new Favorite(
+                favorite.getId(),
+                favorite.getLink(),
+                favorite.getCategory(),
+                getCurrentTime(),
+                favorite.getCategory()
+        );
 
         f = favoriteRepository.save(f);
         return new FavoriteDTO(f.getId(), f.getLink(), f.getLabel(), f.getLast_updated(), f.getCategory());
+    }
+
+    private String getCurrentTime() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }
 }
