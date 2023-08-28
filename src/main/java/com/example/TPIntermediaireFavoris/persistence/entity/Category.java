@@ -1,17 +1,15 @@
 package com.example.TPIntermediaireFavoris.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", uniqueConstraints = { @UniqueConstraint(name = "UniqueCategoryLabel", columnNames = { "label" }) })
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Category {
 
     @Id
@@ -19,6 +17,6 @@ public class Category {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @Column (name = "label", unique = true)
+    @Column (name = "label", nullable = false)
     private String label;
 }

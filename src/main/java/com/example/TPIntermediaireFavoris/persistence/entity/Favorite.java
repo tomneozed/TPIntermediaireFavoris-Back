@@ -2,14 +2,17 @@ package com.example.TPIntermediaireFavoris.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(name = "favorite")
+@Table(name = "favorite", uniqueConstraints = { @UniqueConstraint(name = "UniqueFavoriteLink", columnNames = { "link" }) })
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +28,8 @@ public class Favorite {
     @Column (name = "last_updated")
     private String last_updated;
 
-    @Column (name = "category", nullable = false)
-    private String category;
-
-    /*
-    @Column (name = "category_id", nullable = false)
-    @ManyToOne
-    private Long category_id;
-     */
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn (nullable = false, foreignKey = @ForeignKey(name = "FK_FAVORITE_CATEGORY"))
+    @Fetch(FetchMode.JOIN)
+    private Category category;
 }

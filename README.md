@@ -80,14 +80,26 @@ En tant qu’utilisateur, je dois pouvoir visualiser un toast, afin de connaîtr
 
 # Objectifs
 
-1. Analysez et conceptualisez
-   avant de vous lancer dans le
-   code, vous gagnerez du temps
-2. Fixez vous des objectifs
-   réalistes, commitez souvent, et
-   testez à chaque étape,
-3. Identifiez vos manques, mais
-   surtout, faites vous plaisir,
-4. Ne faites pas plus qu’il vous est
-   demandé, mais pas moins non
-   plus
+1. Analysez et conceptualisez avant de vous lancer dans le code, vous gagnerez du temps
+2. Fixez vous des objectifs réalistes, commitez souvent, et testez à chaque étape,
+3. Identifiez vos manques, mais surtout, faites vous plaisir,
+4. Ne faites pas plus qu’il vous est demandé, mais pas moins non plus
+
+
+## CRUD
+
+### Category
+
+Create : ✅
+Read : ✅
+ReadAll : ✅
+Update : ✅
+Delete : ✅
+
+### Favorite
+
+Create : ✅
+Read : ✅
+ReadAll : ✅
+Update : ✅
+Delete : ✅

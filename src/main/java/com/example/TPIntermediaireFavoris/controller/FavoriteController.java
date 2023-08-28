@@ -1,6 +1,8 @@
 package com.example.TPIntermediaireFavoris.controller;
 
 import com.example.TPIntermediaireFavoris.dto.FavoriteDTO;
+import com.example.TPIntermediaireFavoris.persistence.entity.Favorite;
+import com.example.TPIntermediaireFavoris.persistence.repository.IFavoriteRepository;
 import com.example.TPIntermediaireFavoris.service.IFavoriteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +12,11 @@ import java.util.List;
 @RequestMapping(path = "/api/favorite")
 public class FavoriteController {
     private final IFavoriteService favoriteService;
+    private final IFavoriteRepository favoriteRepository;
 
-    public FavoriteController(IFavoriteService favoriteService) {
+    public FavoriteController(IFavoriteService favoriteService, IFavoriteRepository favoriteRepository) {
         this.favoriteService = favoriteService;
+        this.favoriteRepository = favoriteRepository;
     }
 
     @GetMapping
@@ -31,8 +35,8 @@ public class FavoriteController {
         favoriteService.delete(id);
     }
 
-    @PostMapping
-    FavoriteDTO save(@RequestBody FavoriteDTO favoriteDTO) {
-        return favoriteService.save(favoriteDTO);
+    @GetMapping("/test")
+    public Favorite getFavTest() {
+        return favoriteRepository.findById(1L).get();
     }
 }

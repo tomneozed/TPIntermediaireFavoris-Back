@@ -5,11 +5,13 @@ import com.example.TPIntermediaireFavoris.exceptions.NotFoundException;
 import com.example.TPIntermediaireFavoris.persistence.entity.Category;
 import com.example.TPIntermediaireFavoris.persistence.repository.ICategoryRepository;
 import com.example.TPIntermediaireFavoris.service.ICategoryService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class CategoryService implements ICategoryService {
 
     private final ICategoryRepository categoryRepository;

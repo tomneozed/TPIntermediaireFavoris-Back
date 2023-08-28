@@ -4,10 +4,12 @@ import com.example.TPIntermediaireFavoris.persistence.entity.Favorite;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class FavoriteDTO {
     private Long id;
 
