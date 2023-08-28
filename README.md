@@ -90,16 +90,83 @@ En tant qu’utilisateur, je dois pouvoir visualiser un toast, afin de connaîtr
 
 ### Category
 
-Create : ✅
-Read : ✅
-ReadAll : ✅
-Update : ✅
-Delete : ✅
+**Create : ✅**
+
+http://localhost:8080/api/category
+
+Body : 
+
+```
+{
+    "id": "null",
+    "label": "MUSIC"
+}
+```
+
+**Read : ✅**
+
+http://localhost:8080/api/category/{id}
+
+**ReadAll : ✅**
+
+http://localhost:8080/api/category
+
+
+**Update : ✅**
+
+http://localhost:8080/api/category/{id}
+
+```
+{
+    "id": "{id}",
+    "label": "MUSIC"
+}
+```
+
+**Delete : ✅**
+
+http://localhost:8080/api/category/{id}
+
+---
 
 ### Favorite
 
-Create : ✅
-Read : ✅
-ReadAll : ✅
-Update : ✅
-Delete : ✅
+**Create : ✅**
+
+http://localhost:8080/api/category/{catgeory_id}/favorite
+
+```
+{
+    "id": "null",
+    "label": "Spring",
+    "link": "https://www.globalknowledge.com/fr-FR/Formation/SAFe/Agile_and_Scrum/SAFE",
+    "label": "INETUM ",
+    "last_updated": "2023-08-25"
+}
+```
+
+**Read : ✅**
+
+http://localhost:8080/api/favorite/{id}
+
+**ReadAll : ✅**
+
+http://localhost:8080/api/favorite
+
+**Update : ✅**
+
+http://localhost:8080/api/category/{catgeory_id}/favorite
+
+```
+{
+    "id": "{favorite_id}",
+    "label": "Spring",
+    "link": "https://www.globalknowledge.com/fr-FR/Formation/SAFe/Agile_and_Scrum/SAFE",
+    "label": "INETUM ",
+    "last_updated": "2023-08-25"
+}
+```
+
+**Delete : ✅**
+
+http://localhost:8080/api/favorite/6
