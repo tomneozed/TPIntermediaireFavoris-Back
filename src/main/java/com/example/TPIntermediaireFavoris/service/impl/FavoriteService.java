@@ -42,6 +42,20 @@ public class FavoriteService implements IFavoriteService {
     }
 
     @Override
+    public List<FavoriteDTO> findAllByCategory(long id) {
+        return favoriteRepository.findAll()
+                .stream()
+                .filter(f -> f.getCategory().getId().equals(id))
+                .map(f -> new FavoriteDTO(
+                        f.getId(),
+                        f.getLink(),
+                        f.getLabel(),
+                        f.getLast_updated(),
+                        CategoryDTO.fromEntity(f.getCategory())))
+                .toList();
+    }
+
+    @Override
     public FavoriteDTO findOne(long id) {
         return favoriteRepository.findById(id)
                 .map(f -> new FavoriteDTO(

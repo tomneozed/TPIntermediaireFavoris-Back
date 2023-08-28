@@ -37,6 +37,11 @@ public class CategoryController {
         return categoryService.findOne(id);
     }
 
+    @GetMapping(path = "/{categoryId}/favorite")
+    List<FavoriteDTO> findAllByCategory(@PathVariable long categoryId) {
+        return favoriteService.findAllByCategory(categoryId);
+    }
+
     @Operation(summary = "Deletes a Category by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "The Category was deleted"),

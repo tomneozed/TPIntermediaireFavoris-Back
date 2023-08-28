@@ -8,6 +8,8 @@ import java.util.List;
 public interface IFavoriteService {
     List<FavoriteDTO> findAll();
 
+    List<FavoriteDTO> findAllByCategory(long id);
+
     FavoriteDTO findOne(long id);
 
     void delete(long id);
