@@ -62,7 +62,7 @@ public class FavoriteService implements IFavoriteService {
 
     @Override
     public void deleteMultiple(List<Long> ids) {
-        ids.forEach(id -> this.delete(id));
+        ids.forEach(this::delete);
     }
 
     @Override

@@ -5,6 +5,9 @@ import com.example.TPIntermediaireFavoris.dto.FavoriteDTO;
 import com.example.TPIntermediaireFavoris.dto.SaveFavoriteDTO;
 import com.example.TPIntermediaireFavoris.service.ICategoryService;
 import com.example.TPIntermediaireFavoris.service.IFavoriteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,27 +25,37 @@ public class CategoryController {
         this.favoriteService = favoriteService;
     }
 
+    @Operation(summary = "Returns all Categories")
     @GetMapping
     List<CategoryDTO> findAll() {
         return categoryService.findAll();
     }
 
+    @Operation(summary = "Returns a Category by its ID")
     @GetMapping(path = "/{id}")
     CategoryDTO findOne(@PathVariable long id) {
         return categoryService.findOne(id);
     }
 
+    @Operation(summary = "Deletes a Category by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The Category was deleted"),
+            @ApiResponse(responseCode = "404", description = "The Category was not found"),
+            @ApiResponse(responseCode = "500", description = "The Category couldn't be deleted")
+    })
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     void delete(@PathVariable long id) {
         categoryService.delete(id);
     }
 
+    @Operation(summary = "Creates a new Category if ID is null, otherwise it updates the Category")
     @PostMapping
     CategoryDTO save(@RequestBody CategoryDTO categoryDTO) {
         return categoryService.save(categoryDTO);
     }
 
+    @Operation(summary = "Creates a new Favorite of Category {categoryId} if ID is null, otherwise it updates the Favorite")
     @PostMapping(path = "/{categoryId}/favorite")
     FavoriteDTO saveFavorite(@PathVariable Long categoryId, @RequestBody SaveFavoriteDTO saveFavoriteDTO) {
         return favoriteService.save(categoryId, saveFavoriteDTO);
