@@ -35,6 +35,13 @@ public class FavoriteController {
         favoriteService.delete(id);
     }
 
+    @DeleteMapping
+    @ResponseStatus(code = HttpStatus.OK)
+    void deleteMultiple(@RequestBody List<Long> ids) {
+//        ids.forEach(id -> favoriteService.delete(id));
+        favoriteService.deleteMultiple(ids);
+    }
+
     @GetMapping("/test")
     public Favorite getFavTest() {
         return favoriteRepository.findById(1L).get();

@@ -42,7 +42,7 @@ public class FavoriteService implements IFavoriteService {
     }
 
     @Override
-    public FavoriteDTO findOne(Long id) {
+    public FavoriteDTO findOne(long id) {
         return favoriteRepository.findById(id)
                 .map(f -> new FavoriteDTO(
                         f.getId(),
@@ -54,10 +54,15 @@ public class FavoriteService implements IFavoriteService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(long id) {
         Favorite f = favoriteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("L'item d'id " + id + " n'existe pas."));
         favoriteRepository.delete(f);
+    }
+
+    @Override
+    public void deleteMultiple(List<Long> ids) {
+        ids.forEach(id -> this.delete(id));
     }
 
     @Override

@@ -170,3 +170,11 @@ http://localhost:8080/api/category/{catgeory_id}/favorite
 **Delete : ✅**
 
 http://localhost:8080/api/favorite/6
+
+**DeleteMultiple : ✅**
+
+http://localhost:8080/api/favorite
+
+```
+["{favorite_id_1}","favorite_id_2", ...]
+```
