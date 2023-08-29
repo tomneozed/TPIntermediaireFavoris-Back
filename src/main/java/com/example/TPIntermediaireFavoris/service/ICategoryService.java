@@ -1,13 +1,14 @@
 package com.example.TPIntermediaireFavoris.service;
 
 import com.example.TPIntermediaireFavoris.dto.CategoryDTO;
+import com.example.TPIntermediaireFavoris.dto.CategoryReferencesDTO;
 
 import java.util.List;
 
 public interface ICategoryService {
-    List<CategoryDTO> findAll();
+    List<CategoryReferencesDTO> findAll();
 
-    CategoryDTO findOne(Long id);
+    CategoryReferencesDTO findOne(Long id);
 
     void delete(Long id);
 

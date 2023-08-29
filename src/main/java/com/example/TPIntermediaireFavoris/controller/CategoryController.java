@@ -1,6 +1,7 @@
 package com.example.TPIntermediaireFavoris.controller;
 
 import com.example.TPIntermediaireFavoris.dto.CategoryDTO;
+import com.example.TPIntermediaireFavoris.dto.CategoryReferencesDTO;
 import com.example.TPIntermediaireFavoris.dto.FavoriteDTO;
 import com.example.TPIntermediaireFavoris.dto.SaveFavoriteDTO;
 import com.example.TPIntermediaireFavoris.service.ICategoryService;
@@ -27,13 +28,13 @@ public class CategoryController {
 
     @Operation(summary = "Returns all Categories")
     @GetMapping
-    List<CategoryDTO> findAll() {
+    List<CategoryReferencesDTO> findAll() {
         return categoryService.findAll();
     }
 
     @Operation(summary = "Returns a Category by its ID")
     @GetMapping(path = "/{id}")
-    CategoryDTO findOne(@PathVariable long id) {
+    CategoryReferencesDTO findOne(@PathVariable long id) {
         return categoryService.findOne(id);
     }
 
