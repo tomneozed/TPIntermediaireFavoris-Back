@@ -19,6 +19,7 @@ angular.module('favoriteApp', [])
 
                 $scope.favorite = {
                     link: '',
+                    label: '',
                     category: $scope.realCategories[idx].id
                 }
             }
@@ -30,7 +31,7 @@ angular.module('favoriteApp', [])
         }
 
         $scope.validate = function() {
-            $http.post('api/category/' + $scope.favorite.category + '/favorite' , { id: null, link: $scope.favorite.link }).then(
+            $http.post('api/category/' + $scope.favorite.category + '/favorite' , { id: null, label: $scope.favorite.label, link: $scope.favorite.link }).then(
                 function() {
                     $scope.refresh();
                     $scope.setMode('view');
