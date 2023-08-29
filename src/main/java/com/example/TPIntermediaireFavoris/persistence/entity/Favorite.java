@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "favorite", uniqueConstraints = { @UniqueConstraint(name = "UniqueFavoriteLink", columnNames = { "link" }) })
 @Getter
@@ -26,7 +28,7 @@ public class Favorite {
     private String label;
 
     @Column (name = "last_updated")
-    private String last_updated;
+    private Date last_updated;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn (nullable = false, foreignKey = @ForeignKey(name = "FK_FAVORITE_CATEGORY"))

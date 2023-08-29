@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +19,7 @@ public class SaveFavoriteDTO {
 
     private String label;
 
-    private String last_updated;
+    private Date last_updated;
 
     public static SaveFavoriteDTO fromEntity(Favorite favorite) {
         if (favorite == null) {

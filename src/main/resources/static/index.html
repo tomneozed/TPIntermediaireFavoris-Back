@@ -28,11 +28,6 @@
                         data-ng-options="item.id as item.label for item in categories"
                         required="required">
                 </select>
-
-
-
-
-
               </div>
             </div>
             <div class="column  is-narrow">
@@ -85,7 +80,7 @@
                   <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
                     <td>{{ f.id }}</td>
                     <td><a data-ng-href="f.link" target="_blank">{{ f.link }}</a></td>
-                    <td>{{ f.update | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ f.last_updated | date: 'yyyy-MM-dd' }}</td>
                   </tr>
                 </tbody>
               </table>

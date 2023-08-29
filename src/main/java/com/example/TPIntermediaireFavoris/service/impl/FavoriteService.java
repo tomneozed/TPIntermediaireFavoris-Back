@@ -11,8 +11,6 @@ import com.example.TPIntermediaireFavoris.persistence.repository.IFavoriteReposi
 import com.example.TPIntermediaireFavoris.service.IFavoriteService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -96,7 +94,7 @@ public class FavoriteService implements IFavoriteService {
 
         favorite.setCategory(category);
         favorite.setLink(saveFavoriteDTO.getLink());
-        favorite.setLast_updated(getCurrentTime());
+        favorite.setLast_updated(new Date());
         favorite.setLabel(saveFavoriteDTO.getLabel());
 
         favorite = favoriteRepository.save(favorite);
@@ -107,9 +105,5 @@ public class FavoriteService implements IFavoriteService {
                 favorite.getLabel(),
                 favorite.getLast_updated(),
                 CategoryDTO.fromEntity(favorite.getCategory()));
-    }
-
-    private String getCurrentTime() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     }
 }
