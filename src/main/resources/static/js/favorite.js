@@ -5,7 +5,9 @@ angular.module('favoriteApp', [])
         $scope.realCategories = [];
         $scope.favorites = [];
 
-        $scope.categoryFilter = 0;
+        $scope.category = {
+            filter: 0
+        };
 
         $scope.mode = 'view';
 
@@ -14,7 +16,7 @@ angular.module('favoriteApp', [])
         $scope.setMode = function(text) {
             if (text === 'creation') {
                 $scope.realCategories = $scope.categories.filter(function(c) { return c.id !== 0 });
-                var idx = $scope.realCategories.map(function(c) { return c.id }).indexOf($scope.categoryFilter);
+                var idx = $scope.realCategories.map(function(c) { return c.id }).indexOf($scope.category.filter);
                 if (idx < 0) idx = 0;
 
                 $scope.favorite = {
@@ -47,15 +49,23 @@ angular.module('favoriteApp', [])
                     $scope.categories = [{id: 0, label: "Everything", references: 0}];
                     response.data.forEach(d => {
                         $scope.categories.push(d);
+                        $scope.categories[0].references += d.references;
                     })
 
                     $http.get('api/favorite').then(
                         function(response) {
-                            $scope.favorites = response.data.filter(f => $scope.categoryFilter === 0 || f.category.id === $scope.selectedCategory);
+                            $scope.favorites = response.data.filter(
+                                (f) =>
+                                    $scope.category.filter === 0 ||
+                                    f.categoryDto.id === $scope.category.filter);
                         }
                     )
                 }
             )
+        }
+
+        $scope.format = function(item) {
+            return (item.label + (item.id != 0 ? ' (' + item.references + ')' : ''));
         }
 
         $scope.refresh();
