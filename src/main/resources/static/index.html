@@ -23,9 +23,9 @@
               <div class="select is-fullwidth">
 
                 <select
-                        data-ng-change="filterFavorites()"
-                        data-ng-model="categoryFilter"
-                        data-ng-options="item.id as item.label for item in categories"
+                        data-ng-change="refresh()"
+                        data-ng-model="category.filter"
+                        data-ng-options="item.id as format(item) for item in categories"
                         required="required">
                 </select>
               </div>
