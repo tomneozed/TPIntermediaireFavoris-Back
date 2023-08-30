@@ -32,6 +32,21 @@ angular.module('favoriteApp', [])
             $scope.setMode('view');
         }
 
+        $scope.setUpdate = function(favorite) {
+            $scope.realCategories = $scope.categories.filter(function(c) { return c.id !== 0 });
+            var idx = $scope.realCategories.map(function(c) { return c.id }).indexOf($scope.category.filter);
+            if (idx < 0) idx = 0;
+
+            $scope.setMode('update');
+            $scope.favorite = {
+                id: favorite.id,
+                link: favorite.link,
+                label: favorite.label,
+                category: $scope.realCategories[idx].id
+            };
+            console.log($scope.favorite);
+        }
+
         $scope.deleteFavorite = function(id) {
                 Swal.fire({
                   title: 'Are you sure?',
@@ -60,13 +75,17 @@ angular.module('favoriteApp', [])
 
 
         $scope.validate = function() {
-            $http.post('api/category/' + $scope.favorite.category + '/favorite' , { id: null, label: $scope.favorite.label, link: $scope.favorite.link }).then(
-                function() {
-                    $scope.refresh();
-                    $scope.setMode('view');
-                }, function(error) {
-                    alert(error.data.message);
-                }
+            $http.post('api/category/' + $scope.favorite.category + '/favorite' , {
+                    id: null,
+                    label: $scope.favorite.label,
+                    link: $scope.favorite.link
+                }).then(
+                    function() {
+                        $scope.refresh();
+                        $scope.setMode('view');
+                    }, function(error) {
+                        alert(error.data.message);
+                    }
             )
         }
 
@@ -87,6 +106,21 @@ angular.module('favoriteApp', [])
                                     f.categoryDto.id === $scope.category.filter);
                         }
                     )
+                }
+            )
+        }
+
+        $scope.update = function() {
+            $http.post('api/category/' + $scope.favorite.category + '/favorite' , {
+                 id: $scope.favorite.id,
+                 label: $scope.favorite.label,
+                 link: $scope.favorite.link
+            }).then(
+                function() {
+                    $scope.refresh();
+                    $scope.setMode('view');
+                }, function(error) {
+                    alert(error.data.message);
                 }
             )
         }

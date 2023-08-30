@@ -67,12 +67,45 @@
           </div>
         </div>
 
+        <div class="box" data-ng-if="mode == 'update'">
+          <div class="columns">
+            <div class="column">
+              <h2 class="title">Updating Favorite</h2>
+              <form name="form" class="form-validation" novalidate role="form">
+                <div class="field">
+                  <label class="label">Link *</label>
+                  <div class="control">
+                    <input type="text" data-ng-model="favorite.link" class="input" required="required" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Label </label>
+                  <div class="control">
+                    <input type="text" data-ng-model="favorite.label" class="input" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Category *</label>
+                  <div class="control">
+                    <div class="select is-fullwidth">
+                      <select data-ng-model="favorite.category" data-ng-options="item.id as item.label for item in realCategories" required="required"></select>
+                    </div>
+                  </div>
+                </div>
+                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="update()">OK</button>
+                <button class="button is-default" type="button" data-ng-click="cancel()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
         <div class="box">
           <div class="columns">
             <div class="column">
               <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                 <thead>
                   <tr>
+                    <th class="is-narrow"></th>
                     <th class="is-narrow"></th>
                     <th class="is-narrow">ID</th>
                     <th>Link</th>
@@ -86,6 +119,7 @@
                   </tr>
                   <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
                     <td class="is-narrow"><button class="button is-danger is-small" data-ng-click="deleteFavorite(f.id)">Delete</button></td>
+                    <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdate(f)">Update</button></td>
                     <td>{{ f.id }}</td>
                     <td><a data-ng-href="{{f.link}}" target="_blank">{{ f.label }}</a></td>
                     <td>{{ f.categoryDto.label }}</a></td>
