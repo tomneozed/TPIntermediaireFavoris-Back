@@ -32,6 +32,33 @@ angular.module('favoriteApp', [])
             $scope.setMode('view');
         }
 
+        $scope.deleteFavorite = function(id) {
+                Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $http.delete('/api/favorite/' + id).then(
+                            function() {
+                                $scope.refresh();
+                            }, function(error) {
+                                alert(error.data.message);
+                            }
+                        )
+                        Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                    }
+                })}
+
+
         $scope.validate = function() {
             $http.post('api/category/' + $scope.favorite.category + '/favorite' , { id: null, label: $scope.favorite.label, link: $scope.favorite.link }).then(
                 function() {
