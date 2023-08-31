@@ -51,6 +51,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public CategoryDTO save(CategoryDTO category) {
         Category c = new Category();
+        System.out.println(category);
         c.setId(category.getId());
         c.setLabel(category.getLabel());
 

@@ -1,17 +1,28 @@
 angular
   .module("favoriteApp", [])
   .controller("FavoritesController", function ($scope, $http) {
+
+    // Categories list from API
     $scope.categories = [];
+
+    // Filtered Categories
     $scope.realCategories = [];
+
+    // Favorites list to display
     $scope.favorites = [];
 
+    // Category filter
     $scope.categoryList = {
       filter: 0,
     };
 
+    // Display mode : { view, creationFavorite, updateFavorite, creationCategory, updateCategory, categoryManagement }
     $scope.mode = "view";
 
+    // Favorite item to create / update
     $scope.favorite = {};
+
+    // Category item to create / update
     $scope.category = {};
 
     /* ----- INTERNAL STATE ----- */
@@ -35,9 +46,8 @@ angular
         };
       } else if (text === "creationCategory") {
         $scope.category = {
-            label: ""
-        }
-
+          label: "",
+        };
       }
       $scope.mode = text;
     };
@@ -102,7 +112,6 @@ angular
         label: favorite.label,
         category: $scope.realCategories[idx].id,
       };
-      console.log($scope.favorite);
     };
 
     $scope.updateFavorite = function () {
@@ -164,6 +173,55 @@ angular
             alert(error.data.message);
           }
         );
+    };
+
+    $scope.setUpdateCategory = function (category) {
+      $scope.setMode("updateCategory");
+      $scope.category = {
+        id: category.id,
+        label: category.label,
+      };
+    };
+
+    $scope.updateCategory = function () {
+      $http
+        .post("api/category", {
+          id: $scope.category.id,
+          label: $scope.category.label,
+        })
+        .then(
+          function () {
+            $scope.refresh();
+            $scope.setMode("view");
+          },
+          function (error) {
+            alert(error.data.message);
+          }
+        );
+    };
+
+    $scope.deleteCategory = function (id) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $http.delete("/api/category/" + id).then(
+            function () {
+              $scope.refresh();
+            },
+            function (error) {
+              alert(error.data.message);
+            }
+          );
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
     };
 
     $scope.format = function (item) {

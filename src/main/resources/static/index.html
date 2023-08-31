@@ -37,6 +37,9 @@
             <div class="column  is-narrow">
               <button class="button is-primary" data-ng-click="setMode('creationCategory')">Add Category</button>
             </div>
+            <div class="column  is-narrow">
+              <button class="button is-primary" data-ng-click="setMode('categoryManagement')">Category Management</button>
+            </div>
           </div>
         </div>
 
@@ -124,8 +127,59 @@
           </div>
         </div>
 
-        <!-- TABLE -->
-        <div class="box">
+        <div class="box" data-ng-if="mode == 'updateCategory'">
+          <div class="columns">
+            <div class="column">
+              <h2 class="title">Updating Category</h2>
+              <form name="form" class="form-validation" novalidate role="form">
+                <div class="field">
+                  <label class="label">Label *</label>
+                  <div class="control">
+                    <input type="text" data-ng-model="category.label" class="input" required="required" />
+                  </div>
+                </div>
+                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="updateCategory()">OK</button>
+                <button class="button is-default" type="button" data-ng-click="cancel()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- CATEGORIES TABLE -->
+        <div class="box"  data-ng-if="mode == 'categoryManagement'">
+          <div class="columns">
+            <div class="column">
+              <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th class="is-narrow"></th>
+                    <th class="is-narrow"></th>
+                    <th class="is-narrow">ID</th>
+                    <th>Label</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-if="categories.length == 0">
+                    <td colspan="4">No data !</td>
+                  </tr>
+                  <tr data-ng-repeat="c in categories | orderBy: 'c.id'">
+                    <td class="is-narrow"><button class="button is-danger is-small" data-ng-click="deleteCategory(c.id)">Delete</button></td>
+                    <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdateCategory(c)">Update</button></td>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.label }}</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="is-narrow">
+            <button class="button is-default" type="button" data-ng-click="cancel()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+        <!-- FAVORITES TABLE -->
+        <div class="box" data-ng-if="mode != 'categoryManagement'">
           <div class="columns">
             <div class="column">
               <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
