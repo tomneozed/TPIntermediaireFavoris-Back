@@ -16,6 +16,8 @@
     <section class="section">
       <div class="container">
         <h1 class="title">Favorite Manager</h1>
+
+        <!-- HEADER -->
         <div class="box" data-ng-if="mode == 'view'">
           <h2 class="title">Main menu</h2>
           <div class="columns">
@@ -23,19 +25,23 @@
               <div class="select is-fullwidth">
                 <select
                         data-ng-change="refresh()"
-                        data-ng-model="category.filter"
+                        data-ng-model="categoryList.filter"
                         data-ng-options="item.id as format(item) for item in categories"
                         required="required">
                 </select>
               </div>
             </div>
             <div class="column  is-narrow">
-              <button class="button is-primary" data-ng-click="setMode('creation')">Add</button>
+              <button class="button is-primary" data-ng-click="setMode('creationFavorite')">Add Favorite</button>
+            </div>
+            <div class="column  is-narrow">
+              <button class="button is-primary" data-ng-click="setMode('creationCategory')">Add Category</button>
             </div>
           </div>
         </div>
 
-        <div class="box" data-ng-if="mode == 'creation'">
+        <!-- FAVORITES FORMS -->
+        <div class="box" data-ng-if="mode == 'creationFavorite'">
           <div class="columns">
             <div class="column">
               <h2 class="title">Definition of a new Favorite</h2>
@@ -60,14 +66,14 @@
                     </div>
                   </div>
                 </div>
-                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="validate()">OK</button>
+                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="createFavorite()">OK</button>
                 <button class="button is-default" type="button" data-ng-click="cancel()">Cancel</button>
               </form>
             </div>
           </div>
         </div>
 
-        <div class="box" data-ng-if="mode == 'update'">
+        <div class="box" data-ng-if="mode == 'updateFavorite'">
           <div class="columns">
             <div class="column">
               <h2 class="title">Updating Favorite</h2>
@@ -92,13 +98,33 @@
                     </div>
                   </div>
                 </div>
-                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="update()">OK</button>
+                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="updateFavorite()">OK</button>
                 <button class="button is-default" type="button" data-ng-click="cancel()">Cancel</button>
               </form>
             </div>
           </div>
         </div>
 
+        <!-- CATEGORIES FORMS -->
+        <div class="box" data-ng-if="mode == 'creationCategory'">
+          <div class="columns">
+            <div class="column">
+              <h2 class="title">Definition of a new Category</h2>
+              <form name="form" class="form-validation" novalidate role="form">
+                <div class="field">
+                  <label class="label">Label *</label>
+                  <div class="control">
+                    <input type="text" data-ng-model="category.label" class="input" required="required" />
+                  </div>
+                </div>
+                <button class="button is-primary" type="button" data-ng-disabled="form.$invalid" data-ng-click="createCategory()">OK</button>
+                <button class="button is-default" type="button" data-ng-click="cancel()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLE -->
         <div class="box">
           <div class="columns">
             <div class="column">
@@ -119,7 +145,7 @@
                   </tr>
                   <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
                     <td class="is-narrow"><button class="button is-danger is-small" data-ng-click="deleteFavorite(f.id)">Delete</button></td>
-                    <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdate(f)">Update</button></td>
+                    <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdateFavorite(f)">Update</button></td>
                     <td>{{ f.id }}</td>
                     <td><a data-ng-href="{{f.link}}" target="_blank">{{ f.label }}</a></td>
                     <td>{{ f.categoryDto.label }}</a></td>
