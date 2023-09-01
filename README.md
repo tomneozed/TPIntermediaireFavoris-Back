@@ -170,12 +170,3 @@ http://localhost:8080/api/category/{catgeory_id}/favorite
 **DeleteMultiple : ✅**
 
 http://localhost:8080/api/favorite/{favorite_ids}
-
-
-# TODO
-Front 
-- ajouter chaque catégorie dans le tableau
-- permettre le filtrage par catégorie
-- ajouter un bouton 'modifier' pour modifier un favoris
-- ajouter un bouton 'delete' pour supprimer un favoris
-
