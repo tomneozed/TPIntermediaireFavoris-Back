@@ -10,6 +10,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
     @Id
