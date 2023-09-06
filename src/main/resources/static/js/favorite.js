@@ -1,6 +1,8 @@
 angular
   .module("favoriteApp", [])
   .controller("FavoritesController", function ($scope, $http) {
+    // Display mode : { view, creationFavorite, updateFavorite, creationCategory, updateCategory, categoryManagement }
+    $scope.mode = "view";
 
     // Categories list from API
     $scope.categories = [];
@@ -8,22 +10,27 @@ angular
     // Filtered Categories
     $scope.realCategories = [];
 
-    // Favorites list to display
-    $scope.favorites = [];
-
     // Category filter
     $scope.categoryList = {
       filter: 0,
     };
 
-    // Display mode : { view, creationFavorite, updateFavorite, creationCategory, updateCategory, categoryManagement }
-    $scope.mode = "view";
+    // Category item to create / update
+    $scope.category = {};
+
+    // Favorites list to display
+    $scope.favorites = [];
 
     // Favorite item to create / update
     $scope.favorite = {};
 
-    // Category item to create / update
-    $scope.category = {};
+    $scope.checkBoxLeader = {
+      selected: false,
+    };
+
+    $scope.favoritesToDelete = [];
+
+    //    $scope.filter.checkbox = [];
 
     /* ----- INTERNAL STATE ----- */
 
@@ -110,7 +117,7 @@ angular
         id: favorite.id,
         link: favorite.link,
         label: favorite.label,
-        category: $scope.realCategories[idx].id,
+        category: favorite.categoryDto.id,
       };
     };
 
@@ -132,7 +139,7 @@ angular
         );
     };
 
-    $scope.deleteFavorite = function (id) {
+    $scope.deleteFavorite = function () {
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -143,7 +150,7 @@ angular
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
         if (result.isConfirmed) {
-          $http.delete("/api/favorite/" + id).then(
+          $http.delete("/api/favorite/" + $scope.favoritesToDelete).then(
             function () {
               $scope.refresh();
             },
@@ -152,6 +159,43 @@ angular
             }
           );
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
+      });
+    };
+
+    $scope.checkAll = function () {
+      var doCheck = false;
+
+      if ($scope.checkBoxLeader.selected == true) {
+        doCheck = true;
+      }
+
+      $scope.favorites.forEach((f) => (f.selected = doCheck));
+      $scope.updateFavoritesToDelete();
+    };
+
+    $scope.checkOne = function (favorite) {
+      if (favorite.selected == false) {
+        $scope.checkBoxLeader.selected = false;
+      } else {
+        var checkedItems = 0;
+        $scope.favorites.forEach((f) => {
+          if (f.selected) {
+            checkedItems += 1;
+          }
+        });
+        $scope.checkBoxLeader.selected = !(
+          checkedItems - $scope.favorites.length
+        );
+      }
+      $scope.updateFavoritesToDelete();
+    };
+
+    $scope.updateFavoritesToDelete = function () {
+      $scope.favoritesToDelete = [];
+      $scope.favorites.forEach((f) => {
+        if (f.selected) {
+          $scope.favoritesToDelete.push(f.id);
         }
       });
     };

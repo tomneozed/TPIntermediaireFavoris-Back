@@ -40,6 +40,9 @@
             <div class="column  is-narrow">
               <button class="button is-primary" data-ng-click="setMode('categoryManagement')">Category Management</button>
             </div>
+            <div class="column  is-narrow" data-ng-if="favoritesToDelete.length > 0">
+              <button class="button is-danger" data-ng-click="deleteFavorite()">Delete Favorites</button>
+            </div>
           </div>
         </div>
 
@@ -145,8 +148,43 @@
           </div>
         </div>
 
+        <!-- FAVORITES TABLE -->
+        <div class="box" data-ng-if="mode != 'categoryManagement'">
+          <div class="columns">
+            <div class="column">
+              <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <thead>
+                <tr>
+                  <th class="is-narrow"><input type="checkbox" ng-model="checkBoxLeader.selected" ng-change="checkAll()"></th>
+<!--                  <th class="is-narrow"><input type="checkbox" ng-model="selectAll" ng-change="checkAll()"></th>-->
+                  <th class="is-narrow"></th>
+                  <th class="is-narrow">ID</th>
+                  <th>Link</th>
+                  <th class="is-narrow">Category</th>
+                  <th class="is-narrow">Last Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-if="favorites.length == 0">
+                  <td colspan="4">No data !</td>
+                </tr>
+                <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
+                  <td class="is-narrow"><input type="checkbox" ng-model="f.selected" ng-change="checkOne(f)"></td>
+                  <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdateFavorite(f)">Update</button></td>
+                  <td>{{ f.id }}</td>
+                  <td><a data-ng-href="{{f.link}}" target="_blank">{{ f.label }}</a></td>
+                  <td>{{ f.categoryDto.label }}</a></td>
+                  <td>{{ f.last_updated | date: 'yyyy-MM-dd' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <!-- CATEGORIES TABLE -->
         <div class="box"  data-ng-if="mode == 'categoryManagement'">
+          <h2 class="title">categories Management</h2>
           <div class="columns">
             <div class="column">
               <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
@@ -180,38 +218,6 @@
         </div>
       </div>
 
-        <!-- FAVORITES TABLE -->
-        <div class="box" data-ng-if="mode != 'categoryManagement'">
-          <div class="columns">
-            <div class="column">
-              <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-                <thead>
-                  <tr>
-                    <th class="is-narrow"></th>
-                    <th class="is-narrow"></th>
-                    <th class="is-narrow">ID</th>
-                    <th>Link</th>
-                    <th class="is-narrow">Category</th>
-                    <th class="is-narrow">Last Update</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr data-ng-if="favorites.length == 0">
-                    <td colspan="4">No data !</td>
-                  </tr>
-                  <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
-                    <td class="is-narrow"><button class="button is-danger is-small" data-ng-click="deleteFavorite(f.id)">Delete</button></td>
-                    <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdateFavorite(f)">Update</button></td>
-                    <td>{{ f.id }}</td>
-                    <td><a data-ng-href="{{f.link}}" target="_blank">{{ f.label }}</a></td>
-                    <td>{{ f.categoryDto.label }}</a></td>
-                    <td>{{ f.last_updated | date: 'yyyy-MM-dd' }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </body>
