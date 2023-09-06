@@ -155,10 +155,8 @@
               <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                 <thead>
                 <tr>
-<!--
-                <th class="is-narrow"><input type="checkbox" ng-model="checkBoxLeader.selected" ng-true-value="true" ng-false-value="false" ng-change="setAllFavoritesToDelete()"></th>
--->                
-                  <th class="is-narrow"><input type="checkbox" ng-model="selectAll" ng-change="checkAll()"></th>
+                  <th class="is-narrow"><input type="checkbox" ng-model="checkBoxLeader.selected" ng-change="checkAll()"></th>
+<!--                  <th class="is-narrow"><input type="checkbox" ng-model="selectAll" ng-change="checkAll()"></th>-->
                   <th class="is-narrow"></th>
                   <th class="is-narrow">ID</th>
                   <th>Link</th>
@@ -171,7 +169,7 @@
                   <td colspan="4">No data !</td>
                 </tr>
                 <tr data-ng-repeat="f in favorites | orderBy: sortCriteria">
-                  <td class="is-narrow"><input type="checkbox" ng-model="favorites.selected" ng-change="setFavoritesToDelete(f.id)"></td>
+                  <td class="is-narrow"><input type="checkbox" ng-model="f.selected" ng-change="checkOne(f)"></td>
                   <td class="is-narrow"><button class="button is-info is-small" data-ng-click="setUpdateFavorite(f)">Update</button></td>
                   <td>{{ f.id }}</td>
                   <td><a data-ng-href="{{f.link}}" target="_blank">{{ f.label }}</a></td>

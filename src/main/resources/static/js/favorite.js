@@ -25,12 +25,12 @@ angular
     $scope.favorite = {};
 
     $scope.checkBoxLeader = {
-        selected : false
+      selected: false,
     };
 
     $scope.favoritesToDelete = [];
 
-//    $scope.filter.checkbox = [];
+    //    $scope.filter.checkbox = [];
 
     /* ----- INTERNAL STATE ----- */
 
@@ -119,7 +119,6 @@ angular
         label: favorite.label,
         category: favorite.categoryDto.id,
       };
-
     };
 
     $scope.updateFavorite = function () {
@@ -164,65 +163,42 @@ angular
       });
     };
 
-//    $scope.setFavoritesToDelete = function (id) {
-//      console.log($scope.favoritesToDelete);
-//      console.log($scope.favorites);
-//      // Check if the ID already exists in the array
-//      var index = $scope.favoritesToDelete.indexOf(id);
-//
-//      if (index === -1) {
-//        // If the ID doesn't exist, add it to the array
-//        $scope.favoritesToDelete.push(id);
-//      } else {
-//        // If the ID exists, remove it from the array
-//        $scope.favoritesToDelete.splice(index, 1);
-//      }
-//    };
-//
-//    $scope.setAllFavoritesToDelete = function() {
-//      console.log($scope.checkBoxLeader.selected);
-//      if ($scope.checkBoxLeader.selected === true) {
-//        $scope.favorites.forEach((f) => $scope.favoritesToDelete.push(f.id));
-//      } else {
-//        $scope.favoritesToDelete = [];
-//      }
-//      console.log($scope.favoritesToDelete);
-//
-//    }
-    
+    $scope.checkAll = function () {
+      var doCheck = false;
 
+      if ($scope.checkBoxLeader.selected == true) {
+        doCheck = true;
+      }
 
+      $scope.favorites.forEach((f) => (f.selected = doCheck));
+      $scope.updateFavoritesToDelete();
+    };
 
+    $scope.checkOne = function (favorite) {
+      if (favorite.selected == false) {
+        $scope.checkBoxLeader.selected = false;
+      } else {
+        var checkedItems = 0;
+        $scope.favorites.forEach((f) => {
+          if (f.selected) {
+            checkedItems += 1;
+          }
+        });
+        $scope.checkBoxLeader.selected = !(
+          checkedItems - $scope.favorites.length
+        );
+      }
+      $scope.updateFavoritesToDelete();
+    };
 
-
-
-
-
-    $scope.updateChecks = function () { //fonction qui permet de sélectionner toutes les checkboxes
-      console.log($scope.filter.checkbox); // j'affiche l'état de ma checkbox globale
-      $scope.favorites.forEach(function(f){
-       f.selection = $scope.filter.checkbox
-     })
-  }
-
-  $scope.updateCheck = function () { //fonction qui permet de sélectionner la checkbox globale
-      var etat = true;  //on instancie un état de départ pour ajouter les autres
-      $scope.favorites.forEach(function(f){  //je vais chercher mes favoris qui sont déjà en mémoire
-       etat = etat && f.selection;
-      })
-      $scope.filter.checkbox = etat
-  }
-
-
-
-
-
-
-
-
-
-
-
+    $scope.updateFavoritesToDelete = function () {
+      $scope.favoritesToDelete = [];
+      $scope.favorites.forEach((f) => {
+        if (f.selected) {
+          $scope.favoritesToDelete.push(f.id);
+        }
+      });
+    };
 
     /* ----- CATEGORIES ----- */
 
