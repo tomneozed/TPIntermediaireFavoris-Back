@@ -1,6 +1,8 @@
 angular
   .module("favoriteApp", [])
   .controller("FavoritesController", function ($scope, $http) {
+    // Display mode : { view, creationFavorite, updateFavorite, creationCategory, updateCategory, categoryManagement }
+    $scope.mode = "view";
 
     // Categories list from API
     $scope.categories = [];
@@ -8,22 +10,27 @@ angular
     // Filtered Categories
     $scope.realCategories = [];
 
-    // Favorites list to display
-    $scope.favorites = [];
-
     // Category filter
     $scope.categoryList = {
       filter: 0,
     };
 
-    // Display mode : { view, creationFavorite, updateFavorite, creationCategory, updateCategory, categoryManagement }
-    $scope.mode = "view";
+    // Category item to create / update
+    $scope.category = {};
+
+    // Favorites list to display
+    $scope.favorites = [];
 
     // Favorite item to create / update
     $scope.favorite = {};
 
-    // Category item to create / update
-    $scope.category = {};
+    $scope.checkBoxLeader = {
+        selected : false
+    };
+
+    $scope.favoritesToDelete = [];
+
+//    $scope.filter.checkbox = [];
 
     /* ----- INTERNAL STATE ----- */
 
@@ -110,8 +117,9 @@ angular
         id: favorite.id,
         link: favorite.link,
         label: favorite.label,
-        category: $scope.realCategories[idx].id,
+        category: favorite.categoryDto.id,
       };
+
     };
 
     $scope.updateFavorite = function () {
@@ -132,7 +140,7 @@ angular
         );
     };
 
-    $scope.deleteFavorite = function (id) {
+    $scope.deleteFavorite = function () {
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -143,7 +151,7 @@ angular
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
         if (result.isConfirmed) {
-          $http.delete("/api/favorite/" + id).then(
+          $http.delete("/api/favorite/" + $scope.favoritesToDelete).then(
             function () {
               $scope.refresh();
             },
@@ -155,6 +163,66 @@ angular
         }
       });
     };
+
+//    $scope.setFavoritesToDelete = function (id) {
+//      console.log($scope.favoritesToDelete);
+//      console.log($scope.favorites);
+//      // Check if the ID already exists in the array
+//      var index = $scope.favoritesToDelete.indexOf(id);
+//
+//      if (index === -1) {
+//        // If the ID doesn't exist, add it to the array
+//        $scope.favoritesToDelete.push(id);
+//      } else {
+//        // If the ID exists, remove it from the array
+//        $scope.favoritesToDelete.splice(index, 1);
+//      }
+//    };
+//
+//    $scope.setAllFavoritesToDelete = function() {
+//      console.log($scope.checkBoxLeader.selected);
+//      if ($scope.checkBoxLeader.selected === true) {
+//        $scope.favorites.forEach((f) => $scope.favoritesToDelete.push(f.id));
+//      } else {
+//        $scope.favoritesToDelete = [];
+//      }
+//      console.log($scope.favoritesToDelete);
+//
+//    }
+    
+
+
+
+
+
+
+
+
+    $scope.updateChecks = function () { //fonction qui permet de sélectionner toutes les checkboxes
+      console.log($scope.filter.checkbox); // j'affiche l'état de ma checkbox globale
+      $scope.favorites.forEach(function(f){
+       f.selection = $scope.filter.checkbox
+     })
+  }
+
+  $scope.updateCheck = function () { //fonction qui permet de sélectionner la checkbox globale
+      var etat = true;  //on instancie un état de départ pour ajouter les autres
+      $scope.favorites.forEach(function(f){  //je vais chercher mes favoris qui sont déjà en mémoire
+       etat = etat && f.selection;
+      })
+      $scope.filter.checkbox = etat
+  }
+
+
+
+
+
+
+
+
+
+
+
 
     /* ----- CATEGORIES ----- */
 
